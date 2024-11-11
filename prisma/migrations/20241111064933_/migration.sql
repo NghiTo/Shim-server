@@ -1,16 +1,15 @@
 -- CreateTable
 CREATE TABLE `User` (
     `id` VARCHAR(191) NOT NULL,
-    `usernames` VARCHAR(191) NOT NULL,
     `firstName` VARCHAR(191) NOT NULL,
     `lastName` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `role` ENUM('student', 'teacher', 'admin') NOT NULL,
     `password` VARCHAR(191) NOT NULL,
-    `school` VARCHAR(191) NOT NULL,
     `title` VARCHAR(191) NOT NULL,
-    `subject` VARCHAR(191) NOT NULL,
-    `grade` VARCHAR(191) NOT NULL,
+    `school` VARCHAR(191) NOT NULL DEFAULT '',
+    `subject` VARCHAR(191) NOT NULL DEFAULT '',
+    `grade` VARCHAR(191) NOT NULL DEFAULT '',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
