@@ -30,33 +30,16 @@ const MESSAGES = {
     INVALID_REQUEST: "Invalid request data.",
   },
 
-  // General messages
-  GENERAL: {
-    SUCCESS: "Operation completed successfully.",
-    FAILURE: "Operation failed. Please try again.",
-    NOT_FOUND: "Resource not found.",
-    SERVER_ERROR: "An error occurred on the server. Please try again later.",
-    BAD_REQUEST: "Bad request.",
-    UNPROCESSABLE_ENTITY: "The request could not be processed.",
-  },
-
-  // Log messages
-  LOG: {
-    CREATE_SUCCESS: "Log created successfully.",
-    CREATE_FAILURE: "Failed to create log.",
-    UPDATE_SUCCESS: "Log updated successfully.",
-    UPDATE_FAILURE: "Failed to update log.",
-    DELETE_SUCCESS: "Log deleted successfully.",
-    DELETE_FAILURE: "Failed to delete log.",
-  },
-
-  // Custom messages for specific use cases
-  CUSTOM: {
-    EMAIL_ALREADY_EXISTS: "This email is already in use.",
-    EMAIL_SENT: "Email sent successfully.",
-    EMAIL_SEND_FAILURE: "Failed to send email.",
-    INVALID_TOKEN: "The provided token is invalid or expired.",
-  },
+  SCHOOL: {
+    CREATE_SUCCESS: "School created successfully.",
+    CREATE_FAILURE: "Failed to create school.",
+    NOT_FOUND: "School not found.",
+    FIND_SUCCESS: "School found successfully.",
+    UPDATE_SUCCESS: "School updated successfully.",
+    UPDATE_FAILURE: "Failed to update school.",
+    DELETE_SUCCESS: "School deleted successfully.",
+    DELETE_FAILURE: "Failed to delete school.",
+  }
 };
 
 export default MESSAGES;

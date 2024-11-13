@@ -1,15 +1,69 @@
 import omit from "lodash/omit.js";
+import bcrypt from "bcrypt";
 import userRepository from "../repositories/userRepository.js";
+import { AppError } from "../utils/errorHandler.js";
+import MESSAGES from "../constants/messages.js";
+import ERROR_CODES from "../constants/errorCode.js";
+import { StatusCodes } from "http-status-codes";
+
+const SALT_ROUNDS = 10;
 
 const createUser = async (data) => {
-  const user = await userRepository.createUser(data);
+  const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
+  const user = await userRepository.createUser({
+    ...data,
+    password: hashedPassword,
+  });
   return omit(user, ["password"]);
 };
 
 const findUserByEmail = async ({ email }) => {
   const user = await userRepository.findUserByEmail(email);
-  if (user) return omit(user, ["password"]);
-  return null;
+  if (!user) {
+    throw new AppError({
+      message: MESSAGES.USER.NOT_FOUND,
+      errorCode: ERROR_CODES.USER.NOT_FOUND,
+      statusCode: StatusCodes.NOT_FOUND,
+    });
+  }
+  return omit(user, ["password"]);
 };
 
-export default { createUser, findUserByEmail };
+const login = async (data) => {
+  const user = await userRepository.findUserByEmail(data.email);
+  if (!user) {
+    throw new AppError({
+      message: MESSAGES.USER.NOT_FOUND,
+      errorCode: ERROR_CODES.USER.NOT_FOUND,
+      statusCode: StatusCodes.NOT_FOUND,
+    });
+  }
+  const isMatch = await bcrypt.compare(data.password, user.password);
+  if (!isMatch) {
+    throw new AppError({
+      message: MESSAGES.AUTH.LOGIN_FAILURE,
+      errorCode: ERROR_CODES.AUTH.LOGIN_FAILED,
+      statusCode: StatusCodes.UNAUTHORIZED,
+    });
+  }
+  return omit(user, ["password"]);
+};
+
+const findUserById = async (id) => {
+  const user = await userRepository.findUserById(id);
+  if (!user) {
+    throw new AppError({
+      message: MESSAGES.USER.NOT_FOUND,
+      errorCode: ERROR_CODES.USER.NOT_FOUND,
+      statusCode: StatusCodes.NOT_FOUND,
+    });
+  }
+  return omit(user, ["password"]);
+};
+
+const updateUser = async (id, data) => {
+  const updatedUser = await userRepository.updateUser(id, data);
+  return omit(updatedUser, ["password"]);
+};
+
+export default { createUser, findUserByEmail, login, findUserById, updateUser };

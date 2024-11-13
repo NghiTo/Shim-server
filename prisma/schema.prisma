@@ -15,15 +15,27 @@ model User {
     role      Role
     password  String
     title     String
-    school    String   @default("")
+    schoolId  String?
     subject   String   @default("")
     grade     String   @default("")
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    school School? @relation(fields: [schoolId], references: [id])
 }
 
 enum Role {
     student
     teacher
     admin
+}
+
+model School {
+    id      String @id @default(uuid())
+    name    String
+    address String
+    city    String
+    country String
+
+    users User[]
 }
