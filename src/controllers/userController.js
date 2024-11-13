@@ -50,7 +50,9 @@ const findUserById = catchAsync(async (req, res, next) => {
 
 const updateUser = catchAsync(async (req, res, next) => {
   const result = await userService.updateUser(req.params.userId, req.body);
-  res.status(StatusCodes.OK).json(result);
+  res
+    .status(StatusCodes.OK)
+    .json({ message: MESSAGES.USER.UPDATE_SUCCESS, data: result });
 });
 
 export default { createUser, findUserByEmail, login, findUserById, updateUser };

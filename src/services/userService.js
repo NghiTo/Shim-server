@@ -5,6 +5,7 @@ import { AppError } from "../utils/errorHandler.js";
 import MESSAGES from "../constants/messages.js";
 import ERROR_CODES from "../constants/errorCode.js";
 import { StatusCodes } from "http-status-codes";
+import { uploadImg } from "../utils/uploadImg.js";
 
 const SALT_ROUNDS = 10;
 
@@ -62,7 +63,12 @@ const findUserById = async (id) => {
 };
 
 const updateUser = async (id, data) => {
-  const updatedUser = await userRepository.updateUser(id, data);
+  const newData = { ...data };
+  if (data.avatarUrl) {
+    const newImg = await uploadImg(data.avatarUrl, id, true, true);
+    newData.avatarUrl = newImg.secure_url;
+  }
+  const updatedUser = await userRepository.updateUser(id, newData);
   return omit(updatedUser, ["password"]);
 };
 

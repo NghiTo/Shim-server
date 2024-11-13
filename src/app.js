@@ -2,11 +2,14 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import setupMiddlewares from "./utils/setupMiddlewares.js";
+import { cloudConfig } from "./config/cloudConfig.js";
 
 dotenv.config({ path: path.resolve("environments/.env") });
 
 const app = express();
 const port = process.env.PORT;
+
+cloudConfig();
 
 setupMiddlewares(app);
 

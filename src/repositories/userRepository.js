@@ -13,7 +13,10 @@ const findUserByEmail = async (email) => {
 };
 
 const findUserById = async (id) => {
-  const user = await prisma.user.findUnique({ where: { id } });
+  const user = await prisma.user.findUnique({
+    where: { id },
+    include: { school: true },
+  });
   return user;
 };
 

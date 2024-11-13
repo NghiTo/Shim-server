@@ -4,6 +4,7 @@ CREATE TABLE `User` (
     `firstName` VARCHAR(191) NOT NULL,
     `lastName` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
+    `avatarUrl` VARCHAR(191) NOT NULL DEFAULT '',
     `role` ENUM('student', 'teacher', 'admin') NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `title` VARCHAR(191) NOT NULL,

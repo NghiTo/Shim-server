@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { uploadImg } from "../src/utils/uploadImg.js";
 
 const prisma = new PrismaClient();
 
