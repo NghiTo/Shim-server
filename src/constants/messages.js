@@ -18,16 +18,8 @@ const MESSAGES = {
     UNAUTHORIZED: "Unauthorized access.",
     FORBIDDEN: "Forbidden. You do not have permission to access this resource.",
     LOGOUT_SUCCESS: "Logout successful.",
-  },
-
-  // Validation messages
-  VALIDATION: {
-    REQUIRED_FIELD: (field) => `${field} is required.`,
-    INVALID_EMAIL: "The email format is invalid.",
-    PASSWORD_TOO_SHORT: "Password must be at least 6 characters long.",
-    PASSWORD_TOO_WEAK:
-      "Password must contain a mix of letters, numbers, and symbols.",
-    INVALID_REQUEST: "Invalid request data.",
+    TOKEN_EXPIRED: "Token expired.",
+    TOKEN_INVALID: "Invalid token.",
   },
 
   SCHOOL: {

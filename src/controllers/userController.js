@@ -7,6 +7,11 @@ import { generateTokens } from "../utils/generateTokens.js";
 const createUser = catchAsync(async (req, res, next) => {
   const result = await userService.createUser(req.body);
   const { accessToken, refreshToken } = generateTokens(result);
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 1000 * 60 * 15,
+  });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -28,6 +33,11 @@ const findUserByEmail = catchAsync(async (req, res, next) => {
 const login = catchAsync(async (req, res, next) => {
   const result = await userService.login(req.body);
   const { accessToken, refreshToken } = generateTokens(result);
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
