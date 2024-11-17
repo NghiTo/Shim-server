@@ -65,4 +65,18 @@ const updateUser = catchAsync(async (req, res, next) => {
     .json({ message: MESSAGES.USER.UPDATE_SUCCESS, data: result });
 });
 
-export default { createUser, findUserByEmail, login, findUserById, updateUser };
+const changePassword = catchAsync(async (req, res, next) => {
+  const result = await userService.changePassword(req.params.userId, req.body);
+  res
+    .status(StatusCodes.OK)
+    .json({ message: MESSAGES.AUTH.PASSWORD_UPDATE_SUCCESS, data: result });
+});
+
+export default {
+  createUser,
+  findUserByEmail,
+  login,
+  findUserById,
+  updateUser,
+  changePassword,
+};

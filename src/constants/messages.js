@@ -9,6 +9,7 @@ const MESSAGES = {
     UPDATE_FAILURE: "Failed to update user.",
     DELETE_SUCCESS: "User deleted successfully.",
     DELETE_FAILURE: "Failed to delete user.",
+    USER_EXISTS: "Email already exists.",
   },
 
   // Authentication messages
@@ -20,6 +21,9 @@ const MESSAGES = {
     LOGOUT_SUCCESS: "Logout successful.",
     TOKEN_EXPIRED: "Token expired.",
     TOKEN_INVALID: "Invalid token.",
+    PASSWORD_INVALID: "Invalid password.",
+    PASSWORD_MISMATCH: "Passwords do not match.",
+    PASSWORD_UPDATE_SUCCESS: "Password updated.",
   },
 
   SCHOOL: {
@@ -31,7 +35,7 @@ const MESSAGES = {
     UPDATE_FAILURE: "Failed to update school.",
     DELETE_SUCCESS: "School deleted successfully.",
     DELETE_FAILURE: "Failed to delete school.",
-  }
+  },
 };
 
 export default MESSAGES;

@@ -4,6 +4,8 @@ import MESSAGES from "../constants/messages.js";
 import { AppError } from "../utils/errorHandler.js";
 import jwt from "jsonwebtoken";
 import catchAsync from "../utils/catchAsync.js";
+import nodemailer from "nodemailer";
+import userService from "../services/userService.js";
 
 const generateNewToken = catchAsync(async (req, res, next) => {
   const refreshToken = req.cookies.refreshToken;
@@ -39,4 +41,30 @@ const generateNewToken = catchAsync(async (req, res, next) => {
   });
 });
 
-export default { generateNewToken };
+const sendOtp = catchAsync(async (req, res, next) => {
+  const {email} = await userService.findUserById(req.user.userId);
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD,
+    },
+  });
+  transporter.sendMail({
+    from: {
+      name: "Shim",
+      address: process.env.MAIL_USERNAME,
+    },
+    to: email,
+    subject: "OTP for Shim Registration",
+    text: `Your OTP is: ${otp}`,
+  });
+
+  res.status(StatusCodes.OK).json({ message: "Email sent successfully" });
+});
+
+export default { generateNewToken, sendOtp };

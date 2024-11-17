@@ -14,5 +14,10 @@ router.post(
 router.post("/login", userValidation.loginValidation, userController.login);
 router.get("/:userId", verifyUser, userController.findUserById);
 router.put("/:userId", userController.updateUser);
+router.put(
+  "/changePassword/:userId",
+  userValidation.passwordValidation,
+  userController.changePassword
+);
 
 export default router;

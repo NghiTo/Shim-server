@@ -72,4 +72,35 @@ const updateUser = async (id, data) => {
   return omit(updatedUser, ["password"]);
 };
 
-export default { createUser, findUserByEmail, login, findUserById, updateUser };
+const changePassword = async (userId, { oldPassword, newPassword }) => {
+  const user = await userRepository.findUserById(userId);
+  if (!user) {
+    throw new AppError({
+      message: MESSAGES.USER.NOT_FOUND,
+      errorCode: ERROR_CODES.USER.NOT_FOUND,
+      statusCode: StatusCodes.NOT_FOUND,
+    });
+  }
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
+  if (!isMatch) {
+    throw new AppError({
+      message: MESSAGES.AUTH.PASSWORD_INVALID,
+      errorCode: ERROR_CODES.AUTH.PASSWORD_INVALID,
+      statusCode: StatusCodes.BAD_REQUEST,
+    });
+  }
+  const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+  const updatedUser = await userRepository.updateUser(userId, {
+    password: hashedPassword,
+  });
+  return omit(updatedUser, ["password"]);
+};
+
+export default {
+  createUser,
+  findUserByEmail,
+  login,
+  findUserById,
+  updateUser,
+  changePassword,
+};
