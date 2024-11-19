@@ -17,7 +17,21 @@ const getSchools = async (page, pageSize) => {
       errorCode: ERROR_CODES.SCHOOL.NOT_FOUND,
     });
   }
-  return schools;
+
+  const totalSchools = await schoolRepository.countTotalSchools();
+  return { schools, totalSchools };
 };
 
-export default { getSchools };
+const findSchoolById = async (id) => {
+  const school = await schoolRepository.findSchoolById(id);
+  if (!school) { 
+    throw new AppError({
+      statusCode: StatusCodes.NOT_FOUND,
+      message: MESSAGES.SCHOOL.NOT_FOUND,
+      errorCode: ERROR_CODES.SCHOOL.NOT_FOUND,
+    });
+  }
+  return school;
+}
+
+export default { getSchools, findSchoolById };

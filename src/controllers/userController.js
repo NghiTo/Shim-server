@@ -15,7 +15,7 @@ const createUser = catchAsync(async (req, res, next) => {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000,
   });
   res.status(StatusCodes.OK).json({
     message: MESSAGES.USER.CREATE_SUCCESS,
@@ -72,6 +72,13 @@ const changePassword = catchAsync(async (req, res, next) => {
     .json({ message: MESSAGES.AUTH.PASSWORD_UPDATE_SUCCESS, data: result });
 });
 
+const deleteUser = catchAsync(async (req, res, next) => {
+  const result = await userService.deleteUser(req.params.userId);
+  res.clearCookie("accessToken");
+  res.clearCookie("refreshToken");
+  res.status(StatusCodes.OK).json({ message: result });
+});
+
 export default {
   createUser,
   findUserByEmail,
@@ -79,4 +86,5 @@ export default {
   findUserById,
   updateUser,
   changePassword,
+  deleteUser,
 };

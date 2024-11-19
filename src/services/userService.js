@@ -96,6 +96,19 @@ const changePassword = async (userId, { oldPassword, newPassword }) => {
   return omit(updatedUser, ["password"]);
 };
 
+const deleteUser = async (id) => {
+  const user = await userRepository.findUserById(id);
+  if (!user) {
+    throw new AppError({
+      message: MESSAGES.USER.NOT_FOUND,
+      errorCode: ERROR_CODES.USER.NOT_FOUND,
+      statusCode: StatusCodes.NOT_FOUND,
+    });
+  }
+  await userRepository.deleteUser(id);
+  return MESSAGES.USER.DELETE_SUCCESS ;
+}
+
 export default {
   createUser,
   findUserByEmail,
@@ -103,4 +116,5 @@ export default {
   findUserById,
   updateUser,
   changePassword,
+  deleteUser
 };

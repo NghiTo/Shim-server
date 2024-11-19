@@ -24,6 +24,7 @@ const MESSAGES = {
     PASSWORD_INVALID: "Invalid password.",
     PASSWORD_MISMATCH: "Passwords do not match.",
     PASSWORD_UPDATE_SUCCESS: "Password updated.",
+    OTP_INVALID: "Invalid OTP"
   },
 
   SCHOOL: {
@@ -36,6 +37,17 @@ const MESSAGES = {
     DELETE_SUCCESS: "School deleted successfully.",
     DELETE_FAILURE: "Failed to delete school.",
   },
+
+  TEACHER: {
+    CREATE_SUCCESS: "Teacher created successfully.",
+    CREATE_FAILURE: "Failed to create teacher.",
+    NOT_FOUND: "Teacher not found.",
+    FIND_SUCCESS: "Teacher found successfully.",
+    UPDATE_SUCCESS: "Teacher updated successfully.",
+    UPDATE_FAILURE: "Failed to update teacher.",
+    DELETE_SUCCESS: "Teacher deleted successfully.",
+    DELETE_FAILURE: "Failed to delete teacher.",
+  }
 };
 
 export default MESSAGES;

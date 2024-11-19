@@ -41,9 +41,13 @@ const generateNewToken = catchAsync(async (req, res, next) => {
   });
 });
 
+const otpStore = {};
+
 const sendOtp = catchAsync(async (req, res, next) => {
-  const {email} = await userService.findUserById(req.user.userId);
+  const { email } = await userService.findUserById(req.user.userId);
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  otpStore[email] = otp;
+
   const transporter = nodemailer.createTransport({
     service: "gmail",
     host: "smtp.gmail.com",
@@ -54,17 +58,54 @@ const sendOtp = catchAsync(async (req, res, next) => {
       pass: process.env.MAIL_PASSWORD,
     },
   });
-  transporter.sendMail({
+
+  const htmlContent = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
+      <h2 style="color: #333; text-align: center;">Verify Your Account</h2>
+      <p style="font-size: 16px; color: #555;">
+        Hello, 
+      </p>
+      <p style="font-size: 16px; color: #555;">
+        You requested to delete your Shim account. Please use the following OTP to verify your identity:
+      </p>
+      <p style="font-size: 24px; font-weight: bold; text-align: center; color: #4caf50;">
+        ${otp}
+      </p>
+      <p style="font-size: 16px; color: #555;">
+        If you did not request this action, please ignore this email or contact our support team.
+      </p>
+      <p style="font-size: 14px; color: #999; text-align: center;">
+        © ${new Date().getFullYear()} Shim Inc. All rights reserved.
+      </p>
+    </div>
+  `;
+
+  await transporter.sendMail({
     from: {
       name: "Shim",
       address: process.env.MAIL_USERNAME,
     },
     to: email,
-    subject: "OTP for Shim Registration",
-    text: `Your OTP is: ${otp}`,
+    subject: "OTP for deleting Shim account (no reply)",
+    html: htmlContent,
   });
 
   res.status(StatusCodes.OK).json({ message: "Email sent successfully" });
 });
 
-export default { generateNewToken, sendOtp };
+const verifyOtp = catchAsync(async (req, res, next) => {
+  const { email } = await userService.findUserById(req.user.userId);
+  const { otp } = req.body;
+  if (otpStore[email] === otp) {
+    delete otpStore[email];
+    res.status(StatusCodes.OK).json({ message: "Valid OTP" });
+  } else {
+    throw new AppError({
+      message: MESSAGES.AUTH.OTP_INVALID,
+      errorCode: ERROR_CODES.AUTH.OTP_INVALID,
+      statusCode: StatusCodes.BAD_REQUEST,
+    });
+  }
+});
+
+export default { generateNewToken, sendOtp, verifyOtp };

@@ -13,4 +13,16 @@ const getSchools = async (page, pageSize) => {
   return schools;
 };
 
-export default { getSchools };
+const countTotalSchools = async () => {
+  const totalSchools = await prisma.school.count();
+  return totalSchools;
+};
+
+const findSchoolById = async (id) => {
+  const school = await prisma.school.findUnique({
+    where: { id },
+  });
+  return school;
+};
+
+export default { getSchools, countTotalSchools, findSchoolById };

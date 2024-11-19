@@ -19,5 +19,6 @@ router.put(
   userValidation.passwordValidation,
   userController.changePassword
 );
+router.delete("/:userId", userController.deleteUser)
 
 export default router;

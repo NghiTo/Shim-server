@@ -9,7 +9,7 @@ export const generateTokens = (user) => {
     expiresIn: "15m",
   });
   const refreshToken = jwt.sign({ userId: user.id }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
+    expiresIn: "1d",
   });
   return { accessToken, refreshToken };
 };

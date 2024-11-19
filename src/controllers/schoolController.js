@@ -4,21 +4,26 @@ import catchAsync from "../utils/catchAsync.js";
 import MESSAGES from "../constants/messages.js";
 
 const getSchools = catchAsync(async (req, res, next) => {
-  const page = parseInt(req.query.page)
-  const pageSize = parseInt(req.query.pageSize)
-  const result = await schoolService.getSchools(
-    page, pageSize
-  );
+  const page = parseInt(req.query.page);
+  const pageSize = parseInt(req.query.pageSize);
+  const result = await schoolService.getSchools(page, pageSize);
   res.status(StatusCodes.OK).json({
     message: MESSAGES.SCHOOL.FIND_SUCCESS,
-    data: result,
+    data: result.schools,
     pagination: {
       currentPage: page,
       pageSize,
-      totalItems: 20,
-      hasMore: result.length === pageSize
-    }
+      totalItems: result.totalSchools,
+      hasMore: result.length === pageSize,
+    },
   });
 });
 
-export default { getSchools };
+const findSchoolById = catchAsync(async (req, res, next) => {
+  const result = await schoolService.findSchoolById(req.params.schoolId);
+  res
+    .status(StatusCodes.OK)
+    .json({ message: MESSAGES.SCHOOL.FIND_SUCCESS, data: result });
+});
+
+export default { getSchools, findSchoolById };
