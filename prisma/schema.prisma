@@ -22,7 +22,9 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    school School? @relation(fields: [schoolId], references: [id])
+    school     School?      @relation(fields: [schoolId], references: [id])
+    quizzes    Quiz[] // Một user có thể tạo nhiều quiz
+    UserAnswer UserAnswer[]
 }
 
 enum Role {
@@ -39,4 +41,67 @@ model School {
     country String
 
     users User[]
+}
+
+model Quiz {
+    id        String   @id @default(uuid())
+    title     String
+    subject   String
+    grade     String
+    point     Int
+    time      Int
+    coverImg  String?
+    isPublic  Boolean
+    userId    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user       User         @relation(fields: [userId], references: [id])
+    questions  Question[]
+    UserAnswer UserAnswer[]
+}
+
+model Question {
+    id        String       @id @default(uuid())
+    title     String
+    createdAt DateTime     @default(now())
+    quizId    String
+    type      QuestionType
+
+    quiz       Quiz         @relation(fields: [quizId], references: [id])
+    answers    Answer[]
+    UserAnswer UserAnswer[]
+}
+
+enum QuestionType {
+    multipleChoice
+    trueFalse
+    fillInTheBlank
+    shortAnswer
+}
+
+model Answer {
+    id         String   @id @default(uuid())
+    content    String
+    imageUrl   String?
+    isCorrect  Boolean
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    questionId String
+
+    question Question @relation(fields: [questionId], references: [id])
+}
+
+model UserAnswer {
+    id         String   @id @default(uuid())
+    userId     String
+    quizId     String
+    questionId String
+    answer     String
+    isCorrect  Boolean
+    createdAt  DateTime @default(now())
+
+    user     User     @relation(fields: [userId], references: [id])
+    quiz     Quiz     @relation(fields: [quizId], references: [id])
+    question Question @relation(fields: [questionId], references: [id])
 }

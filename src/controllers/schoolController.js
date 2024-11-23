@@ -14,7 +14,7 @@ const getSchools = catchAsync(async (req, res, next) => {
       currentPage: page,
       pageSize,
       totalItems: result.totalSchools,
-      hasMore: result.length === pageSize,
+      hasMore: pageSize * page < result.totalSchools,
     },
   });
 });
