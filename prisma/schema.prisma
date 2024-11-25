@@ -64,8 +64,8 @@ model Quiz {
 model Question {
     id        String       @id @default(uuid())
     title     String
-    createdAt DateTime     @default(now())
     quizId    String
+    createdAt DateTime     @default(now())
     type      QuestionType
 
     quiz       Quiz         @relation(fields: [quizId], references: [id])
