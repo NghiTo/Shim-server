@@ -47,6 +47,24 @@ const MESSAGES = {
     UPDATE_FAILURE: "Failed to update teacher.",
     DELETE_SUCCESS: "Teacher deleted successfully.",
     DELETE_FAILURE: "Failed to delete teacher.",
+  },
+  QUIZ: {
+    CREATE_SUCCESS: "Quiz created successfully.",
+    CREATE_FAILURE: "Failed to create quiz.",
+    NOT_FOUND: "Quiz not found.",
+    FIND_SUCCESS: "Quiz found successfully.",
+    UPDATE_SUCCESS: "Quiz updated successfully.",
+    UPDATE_FAILURE: "Failed to update quiz.",
+    DELETE_SUCCESS: "Quiz deleted successfully.",
+    DELETE_FAILURE: "Failed to delete quiz.",
+    QUESTION_NOT_FOUND: "Question not found.",
+    QUESTION_DELETE_FAILURE: "Failed to delete question.",
+    QUESTION_UPDATE_FAILURE: "Failed to update question.",
+    QUESTION_CREATE_FAILURE: "Failed to create question.",
+    ANSWER_NOT_FOUND: "Answer not found.",
+    ANSWER_DELETE_FAILURE: "Failed to delete answer.",
+    ANSWER_UPDATE_FAILURE: "Failed to update answer.",
+    ANSWER_CREATE_FAILURE: "Failed to create answer."
   }
 };
 

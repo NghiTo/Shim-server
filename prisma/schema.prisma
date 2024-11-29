@@ -46,10 +46,10 @@ model School {
 model Quiz {
     id        String   @id @default(uuid())
     title     String
-    subject   String
-    grade     String
+    subject   String   
+    grade     String   
     point     Int
-    time      Int
+    time      Int      
     coverImg  String?
     isPublic  Boolean
     userId    String
@@ -68,7 +68,7 @@ model Question {
     createdAt DateTime     @default(now())
     type      QuestionType
 
-    quiz       Quiz         @relation(fields: [quizId], references: [id])
+    quiz       Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
     answers    Answer[]
     UserAnswer UserAnswer[]
 }
@@ -89,7 +89,7 @@ model Answer {
     updatedAt  DateTime @updatedAt
     questionId String
 
-    question Question @relation(fields: [questionId], references: [id])
+    question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
 
 model UserAnswer {

@@ -2,42 +2,78 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const createQuiz = async ({
-  title,
-  subject,
-  grade,
-  point,
-  time,
-  isPublic,
-  userId,
-  questions,
-}) => {
-  console.log(questions);
-  
-  const quiz = await prisma.quiz.create({
+const createBlankQuiz = async (userId) => {
+  const newQuiz = await prisma.quiz.create({
     data: {
-      title,
-      subject,
-      grade,
-      point,
-      time,
-      isPublic,
+      title: "Untitled quiz",
+      subject: "",
+      grade: "",
+      point: 1,
+      time: 5,
+      isPublic: true,
       userId,
+    },
+  });
+  return newQuiz;
+};
+
+const findQuizById = async (quizId) => {
+  const quiz = await prisma.quiz.findUnique({
+    where: { id: quizId },
+    include: {
       questions: {
-        create: questions.map((question) => ({
-          title: question.title,
-          type: question.type,
-          answers: {
-            create: question.answers.map((answer) => ({
-              content: answer.content,
-              isCorrect: answer.isCorrect,
-            })),
-          },
-        })),
+        include: {
+          answers: true,
+        },
       },
     },
   });
   return quiz;
 };
 
-export default { createQuiz };
+const updateQuiz = async (quizId, data) => {
+  const updatedQuiz = await prisma.quiz.update({
+    where: { id: quizId },
+    data,
+  });
+  return updatedQuiz;
+};
+
+const createMultipleChoiceQuestion = async (quizId, title, answers) => {
+  const question = await prisma.question.create({
+    data: {
+      title,
+      type: "multipleChoice",
+      quizId,
+      answers: {
+        create: answers.map((answer) => ({
+          content: answer.content,
+          imageUrl: answer.imageUrl || null,
+          isCorrect: !!answer.isCorrect,
+        })),
+      },
+    },
+    include: {
+      answers: true,
+    },
+  });
+  return question;
+};
+
+const getAllQuestions = async (quizId) => {
+  const questions = await prisma.question.findMany({
+    where: { quizId },
+    include: {
+      answers: true,
+    },
+  });
+  return questions;
+};
+
+export default {
+  createBlankQuiz,
+  findQuizById,
+  updateQuiz,
+  createMultipleChoiceQuestion,
+  getAllQuestions,
+};
