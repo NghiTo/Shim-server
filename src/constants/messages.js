@@ -59,6 +59,7 @@ const MESSAGES = {
     DELETE_FAILURE: "Failed to delete quiz.",
     QUESTION_NOT_FOUND: "Question not found.",
     QUESTION_DELETE_FAILURE: "Failed to delete question.",
+    QUESTION_DELETE_SUCCESS: "Question deleted successfully",
     QUESTION_UPDATE_FAILURE: "Failed to update question.",
     QUESTION_CREATE_FAILURE: "Failed to create question.",
     ANSWER_NOT_FOUND: "Answer not found.",

@@ -13,9 +13,9 @@ model User {
     lastName  String
     email     String   @unique
     avatarUrl String   @default("")
-    role      Role
-    password  String
-    title     String
+    role      Role?
+    password  String   @default("")
+    title     String   @default("")
     schoolId  String?
     subject   String   @default("")
     grade     String   @default("")
@@ -23,7 +23,7 @@ model User {
     updatedAt DateTime @updatedAt
 
     school     School?      @relation(fields: [schoolId], references: [id])
-    quizzes    Quiz[] // Một user có thể tạo nhiều quiz
+    quizzes    Quiz[]
     UserAnswer UserAnswer[]
 }
 
@@ -46,27 +46,33 @@ model School {
 model Quiz {
     id        String   @id @default(uuid())
     title     String
-    subject   String   
-    grade     String   
-    point     Int
-    time      Int      
+    subject   String
+    grade     String
     coverImg  String?
     isPublic  Boolean
+    status    Status
     userId    String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    user       User         @relation(fields: [userId], references: [id])
+    user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     questions  Question[]
     UserAnswer UserAnswer[]
+}
+
+enum Status {
+    unFinished
+    finished
 }
 
 model Question {
     id        String       @id @default(uuid())
     title     String
     quizId    String
-    createdAt DateTime     @default(now())
+    time      Int?
+    point     Int?
     type      QuestionType
+    createdAt DateTime     @default(now())
 
     quiz       Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
     answers    Answer[]

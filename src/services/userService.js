@@ -10,6 +10,10 @@ import { uploadImg } from "../utils/uploadImg.js";
 const SALT_ROUNDS = 10;
 
 const createUser = async (data) => {
+  if (!data.password) {
+    const user = await userRepository.createUser(data);
+    return omit(user, ["password"]);
+  }
   const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
   const user = await userRepository.createUser({
     ...data,
@@ -63,6 +67,14 @@ const findUserById = async (id) => {
 };
 
 const updateUser = async (id, data) => {
+  const user = await userRepository.findUserById(id);
+  if (!user) {
+    throw new AppError({
+      message: MESSAGES.USER.NOT_FOUND,
+      errorCode: ERROR_CODES.USER.NOT_FOUND,
+      statusCode: StatusCodes.NOT_FOUND,
+    });
+  }
   const newData = { ...data };
   if (data.avatarUrl) {
     const newImg = await uploadImg(data.avatarUrl, id, true, true);
@@ -106,8 +118,8 @@ const deleteUser = async (id) => {
     });
   }
   await userRepository.deleteUser(id);
-  return MESSAGES.USER.DELETE_SUCCESS ;
-}
+  return MESSAGES.USER.DELETE_SUCCESS;
+};
 
 export default {
   createUser,
@@ -116,5 +128,5 @@ export default {
   findUserById,
   updateUser,
   changePassword,
-  deleteUser
+  deleteUser,
 };

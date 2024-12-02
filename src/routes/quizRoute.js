@@ -7,11 +7,19 @@ const router = Router();
 router.post("/", verifyUser, quizController.createBlankQuiz);
 router.get("/:quizId", quizController.findQuizById);
 router.put("/:quizId", verifyUser, quizController.updateQuiz);
+
 router.post(
   "/:quizId",
   verifyUser,
   quizController.createMultipleChoiceQuestion
 );
-router.get("/:quizId/questions", quizController.getAllQuestions);
+router.delete(
+  "/:quizId/:questionId",
+  verifyUser,
+  quizController.deleteQuestion
+);
+router.put("/:quizId/questions/:questionId", verifyUser, quizController.updateQuestion);
+router.get("/", verifyUser, quizController.getAllQuizzes)
+router.put("/:quizId/questions", verifyUser, quizController.updateAllQuestions)
 
 export default router;
