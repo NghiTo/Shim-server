@@ -35,6 +35,12 @@ const getAllQuizzes = catchAsync(async (req, res, next) => {
     .json({ message: MESSAGES.QUIZ.FIND_SUCCESS, data: result });
 });
 
+const deleteQuiz = catchAsync(async (req, res, next) => {
+  const { quizId } = req.params;
+  const result = await quizService.deleteQuiz(quizId);
+  res.status(StatusCodes.OK).json({ message: result });
+});
+
 const createMultipleChoiceQuestion = catchAsync(async (req, res, next) => {
   const { quizId } = req.params;
   const { title, answers } = req.body;
@@ -57,6 +63,7 @@ const deleteQuestion = catchAsync(async (req, res, next) => {
 const updateQuestion = catchAsync(async (req, res, next) => {
   const { questionId } = req.params;
   const data = req.body;
+
   const result = await quizService.updateQuestion(questionId, data);
   res
     .status(StatusCodes.OK)
@@ -80,5 +87,6 @@ export default {
   deleteQuestion,
   updateQuestion,
   getAllQuizzes,
-  updateAllQuestions
+  updateAllQuestions,
+  deleteQuiz,
 };

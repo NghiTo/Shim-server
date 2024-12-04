@@ -7,6 +7,7 @@ const router = Router();
 router.post("/", verifyUser, quizController.createBlankQuiz);
 router.get("/:quizId", quizController.findQuizById);
 router.put("/:quizId", verifyUser, quizController.updateQuiz);
+router.delete("/:quizId", verifyUser, quizController.deleteQuiz);
 
 router.post(
   "/:quizId",
@@ -18,8 +19,12 @@ router.delete(
   verifyUser,
   quizController.deleteQuestion
 );
-router.put("/:quizId/questions/:questionId", verifyUser, quizController.updateQuestion);
-router.get("/", verifyUser, quizController.getAllQuizzes)
-router.put("/:quizId/questions", verifyUser, quizController.updateAllQuestions)
+router.put(
+  "/:quizId/questions/:questionId",
+  verifyUser,
+  quizController.updateQuestion
+);
+router.get("/", verifyUser, quizController.getAllQuizzes);
+router.put("/:quizId/questions", verifyUser, quizController.updateAllQuestions);
 
 export default router;

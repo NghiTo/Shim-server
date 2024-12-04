@@ -55,6 +55,10 @@ const updateQuiz = async (quizId, data) => {
   return updatedQuiz;
 };
 
+const deleteQuiz = async (quizId) => {
+  return await prisma.quiz.delete({ where: { id: quizId } });
+};
+
 const createMultipleChoiceQuestion = async (quizId, title, answers) => {
   const question = await prisma.question.create({
     data: {
@@ -102,6 +106,38 @@ const updateQuestion = async (questionId, data) => {
   return question;
 };
 
+const updateAnswers = async (questionId, answers) => {
+  const updatedQuestion = await prisma.question.update({
+    where: { id: questionId },
+    data: {
+      answers: {
+        update: answers
+          .filter((answer) => answer.id)
+          .map((answer) => ({
+            where: { id: answer.id },
+            data: {
+              content: answer.content,
+              imageUrl: answer.imageUrl || null,
+              isCorrect: !!answer.isCorrect,
+            },
+          })),
+        create: answers
+          .filter((answer) => !answer.id)
+          .map((answer) => ({
+            content: answer.content,
+            imageUrl: answer.imageUrl || null,
+            isCorrect: !!answer.isCorrect,
+          })),
+      },
+    },
+    include: {
+      answers: true,
+    },
+  });
+
+  return updatedQuestion;
+};
+
 const updateAllQuestions = async (quizId, data) => {
   const updatedQuestions = await prisma.question.updateMany({
     where: { quizId },
@@ -120,4 +156,6 @@ export default {
   updateQuestion,
   getAllQuizzes,
   updateAllQuestions,
+  deleteQuiz,
+  updateAnswers,
 };

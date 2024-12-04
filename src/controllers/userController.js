@@ -36,12 +36,12 @@ const login = catchAsync(async (req, res, next) => {
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 1000 * 60 * 15,
   });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000,
   });
   res.status(StatusCodes.OK).json({
     message: MESSAGES.AUTH.LOGIN_SUCCESS,

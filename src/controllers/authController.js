@@ -110,20 +110,18 @@ const verifyOtp = catchAsync(async (req, res, next) => {
 });
 
 const loginWithGoogle = catchAsync(async (req, res, next) => {
-  const { id } = req.body;  
-  console.log(id);
-  
-  const user = await userService.findUserById(id)
+  const { id } = req.body;
+  const user = await userService.findUserById(id);
   const { accessToken, refreshToken } = generateTokens(user);
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 15 * 6000 * 1000,
   });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000,
   });
   res.status(StatusCodes.OK).json({
     message: MESSAGES.AUTH.LOGIN_SUCCESS,
@@ -131,11 +129,11 @@ const loginWithGoogle = catchAsync(async (req, res, next) => {
     accessToken: accessToken,
     refreshToken: refreshToken,
   });
-})
+});
 
 export default {
   generateNewToken,
   sendOtp,
   verifyOtp,
-  loginWithGoogle
+  loginWithGoogle,
 };
