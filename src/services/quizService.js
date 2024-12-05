@@ -92,6 +92,23 @@ const createMultipleChoiceQuestion = async (quizId, title, answers) => {
   return question;
 };
 
+const createFillInTheBlankQuestion = async (quizId, title, answers) => {
+  const quiz = await quizRepository.findQuizById(quizId);
+  if (!quiz) {
+    throw new AppError({
+      statusCode: StatusCodes.NOT_FOUND,
+      message: MESSAGES.QUIZ.NOT_FOUND,
+      errorCode: ERROR_CODES.QUIZ.NOT_FOUND,
+    });
+  }
+  const question = await quizRepository.createFillInTheBlankQuestion(
+    quizId,
+    title,
+    answers
+  );
+  return question;
+};
+
 const deleteQuestion = async (quizId, questionId) => {
   const quiz = await quizRepository.findQuizById(quizId);
   if (!quiz) {
@@ -122,8 +139,11 @@ const updateQuestion = async (questionId, data) => {
       errorCode: ERROR_CODES.QUIZ.QUESTION_NOT_FOUND,
     });
   }
-  const {answers, ...newData} = data
-  let updatedQuestion = await quizRepository.updateQuestion(questionId, newData);
+  const { answers, ...newData } = data;
+  let updatedQuestion = await quizRepository.updateQuestion(
+    questionId,
+    newData
+  );
   if (answers) {
     updatedQuestion = await quizRepository.updateAnswers(questionId, answers);
   }
@@ -153,4 +173,5 @@ export default {
   getAllQuizzes,
   updateAllQuestions,
   deleteQuiz,
+  createFillInTheBlankQuestion,
 };

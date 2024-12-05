@@ -10,9 +10,14 @@ router.put("/:quizId", verifyUser, quizController.updateQuiz);
 router.delete("/:quizId", verifyUser, quizController.deleteQuiz);
 
 router.post(
-  "/:quizId",
+  "/:quizId/multiple-choice",
   verifyUser,
   quizController.createMultipleChoiceQuestion
+);
+router.post(
+  "/:quizId/fill-in-the-blank",
+  verifyUser,
+  quizController.createFillInTheBlankQuestion
 );
 router.delete(
   "/:quizId/:questionId",

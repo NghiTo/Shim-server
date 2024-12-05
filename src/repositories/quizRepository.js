@@ -82,6 +82,29 @@ const createMultipleChoiceQuestion = async (quizId, title, answers) => {
   return question;
 };
 
+const createFillInTheBlankQuestion = async (quizId, title, answers) => {
+  const question = await prisma.question.create({
+    data: {
+      title,
+      type: "fillInTheBlank",
+      quizId,
+      point: 1,
+      time: 5,
+      answers: {
+        create: answers.map((answer) => ({
+          content: answer.content,
+          imageUrl: answer.imageUrl || null,
+          isCorrect: !!answer.isCorrect,
+        })),
+      },
+    },
+    include: {
+      answers: true,
+    },
+  });
+  return question;
+};
+
 const findQuestionById = async (questionId) => {
   const question = await prisma.question.findUnique({
     where: { id: questionId },
@@ -125,7 +148,6 @@ const updateAnswers = async (questionId, answers) => {
           .filter((answer) => !answer.id)
           .map((answer) => ({
             content: answer.content,
-            imageUrl: answer.imageUrl || null,
             isCorrect: !!answer.isCorrect,
           })),
       },
@@ -158,4 +180,5 @@ export default {
   updateAllQuestions,
   deleteQuiz,
   updateAnswers,
+  createFillInTheBlankQuestion
 };

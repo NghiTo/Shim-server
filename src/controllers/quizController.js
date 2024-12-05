@@ -54,6 +54,19 @@ const createMultipleChoiceQuestion = catchAsync(async (req, res, next) => {
     .json({ message: MESSAGES.QUIZ.UPDATE_SUCCESS, data: result });
 });
 
+const createFillInTheBlankQuestion = catchAsync(async (req, res, next) => {
+  const { quizId } = req.params;
+  const { title, answers } = req.body;
+  const result = await quizService.createFillInTheBlankQuestion(
+    quizId,
+    title,
+    answers
+  );
+  res
+    .status(StatusCodes.OK)
+    .json({ message: MESSAGES.QUIZ.UPDATE_SUCCESS, data: result });
+});
+
 const deleteQuestion = catchAsync(async (req, res, next) => {
   const { quizId, questionId } = req.params;
   const result = await quizService.deleteQuestion(quizId, questionId);
@@ -89,4 +102,5 @@ export default {
   getAllQuizzes,
   updateAllQuestions,
   deleteQuiz,
+  createFillInTheBlankQuestion,
 };

@@ -12,7 +12,7 @@ export const googleOauth = new GoogleStrategy(
   async (accessToken, refreshToken, profile, done) => {
     try {
       let user = await prisma.user.findUnique({
-        where: { id: profile.id },
+        where: { email: profile.emails[0].value },
       });
       if (!user) {
         user = profile;

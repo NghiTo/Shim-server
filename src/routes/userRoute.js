@@ -5,7 +5,11 @@ import { verifyUser } from "../middlewares/authentication.js";
 
 const router = Router();
 
-router.post("/register", userController.createUser);
+router.post(
+  "/register",
+  userValidation.registerValidation,
+  userController.createUser
+);
 router.post(
   "/email",
   userValidation.emailValidation,
@@ -19,6 +23,6 @@ router.put(
   userValidation.passwordValidation,
   userController.changePassword
 );
-router.delete("/:userId", userController.deleteUser)
+router.delete("/:userId", userController.deleteUser);
 
 export default router;
