@@ -5,11 +5,7 @@ import { verifyUser } from "../middlewares/authentication.js";
 
 const router = Router();
 
-router.post(
-  "/register",
-  userValidation.registerValidation,
-  userController.createUser
-);
+router.post("/register", userController.createUser);
 router.post(
   "/email",
   userValidation.emailValidation,

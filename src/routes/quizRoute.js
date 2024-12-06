@@ -1,6 +1,7 @@
 import { Router } from "express";
 import quizController from "../controllers/quizController.js";
 import { verifyUser } from "../middlewares/authentication.js";
+import questionController from "../controllers/questionController.js";
 
 const router = Router();
 
@@ -8,28 +9,32 @@ router.post("/", verifyUser, quizController.createBlankQuiz);
 router.get("/:quizId", quizController.findQuizById);
 router.put("/:quizId", verifyUser, quizController.updateQuiz);
 router.delete("/:quizId", verifyUser, quizController.deleteQuiz);
+router.get("/", verifyUser, quizController.getAllQuizzes);
 
 router.post(
   "/:quizId/multiple-choice",
   verifyUser,
-  quizController.createMultipleChoiceQuestion
+  questionController.createMultipleChoiceQuestion
 );
 router.post(
   "/:quizId/fill-in-the-blank",
   verifyUser,
-  quizController.createFillInTheBlankQuestion
+  questionController.createFillInTheBlankQuestion
 );
 router.delete(
   "/:quizId/:questionId",
   verifyUser,
-  quizController.deleteQuestion
+  questionController.deleteQuestion
 );
 router.put(
   "/:quizId/questions/:questionId",
   verifyUser,
-  quizController.updateQuestion
+  questionController.updateQuestion
 );
-router.get("/", verifyUser, quizController.getAllQuizzes);
-router.put("/:quizId/questions", verifyUser, quizController.updateAllQuestions);
+router.put(
+  "/:quizId/questions",
+  verifyUser,
+  questionController.updateAllQuestions
+);
 
 export default router;
