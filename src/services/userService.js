@@ -48,7 +48,7 @@ const login = async (data) => {
     throw new AppError({
       message: MESSAGES.AUTH.LOGIN_FAILURE,
       errorCode: ERROR_CODES.AUTH.LOGIN_FAILED,
-      statusCode: StatusCodes.UNAUTHORIZED,
+      statusCode: StatusCodes.BAD_REQUEST,
     });
   }
   return omit(user, ["password"]);
@@ -79,6 +79,10 @@ const updateUser = async (id, data) => {
   if (data.avatarUrl) {
     const newImg = await uploadImg(data.avatarUrl, id, true, true);
     newData.avatarUrl = newImg.secure_url;
+  }
+  if (data.password) {
+    const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
+    newData.password = hashedPassword;
   }
   const updatedUser = await userRepository.updateUser(id, newData);
   return omit(updatedUser, ["password"]);

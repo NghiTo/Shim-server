@@ -16,6 +16,7 @@ router.get("/:userId", verifyUser, userController.findUserById);
 router.put("/:userId", userController.updateUser);
 router.put(
   "/changePassword/:userId",
+  verifyUser,
   userValidation.passwordValidation,
   userController.changePassword
 );
