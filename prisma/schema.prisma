@@ -45,6 +45,7 @@ model School {
 
 model Quiz {
     id        String   @id @default(uuid())
+    quizCode  Int
     title     String
     subject   String
     grade     String

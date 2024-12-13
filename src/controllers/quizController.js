@@ -15,7 +15,7 @@ const findQuizById = catchAsync(async (req, res, next) => {
   const result = await quizService.findQuizById(req.params.quizId);
   res
     .status(StatusCodes.OK)
-    .json({ message: MESSAGES.QUIZ.CREATE_SUCCESS, data: result });
+    .json({ message: MESSAGES.QUIZ.FIND_SUCCESS, data: result });
 });
 
 const updateQuiz = catchAsync(async (req, res, next) => {

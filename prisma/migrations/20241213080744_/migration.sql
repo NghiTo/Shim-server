@@ -5,9 +5,9 @@ CREATE TABLE `User` (
     `lastName` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `avatarUrl` VARCHAR(191) NOT NULL DEFAULT '',
-    `role` ENUM('student', 'teacher', 'admin') NOT NULL,
-    `password` VARCHAR(191) NOT NULL,
-    `title` VARCHAR(191) NOT NULL,
+    `role` ENUM('student', 'teacher', 'admin') NULL,
+    `password` VARCHAR(191) NOT NULL DEFAULT '',
+    `title` VARCHAR(191) NOT NULL DEFAULT '',
     `schoolId` VARCHAR(191) NULL,
     `subject` VARCHAR(191) NOT NULL DEFAULT '',
     `grade` VARCHAR(191) NOT NULL DEFAULT '',
@@ -32,6 +32,7 @@ CREATE TABLE `School` (
 -- CreateTable
 CREATE TABLE `Quiz` (
     `id` VARCHAR(191) NOT NULL,
+    `quizCode` INTEGER NOT NULL,
     `title` VARCHAR(191) NOT NULL,
     `subject` VARCHAR(191) NOT NULL,
     `grade` VARCHAR(191) NOT NULL,
@@ -88,7 +89,7 @@ CREATE TABLE `UserAnswer` (
 ALTER TABLE `User` ADD CONSTRAINT `User_schoolId_fkey` FOREIGN KEY (`schoolId`) REFERENCES `School`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Quiz` ADD CONSTRAINT `Quiz_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Quiz` ADD CONSTRAINT `Quiz_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Question` ADD CONSTRAINT `Question_quizId_fkey` FOREIGN KEY (`quizId`) REFERENCES `Quiz`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

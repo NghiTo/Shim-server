@@ -1,11 +1,12 @@
+import { StatusCodes } from "http-status-codes";
 import MESSAGES from "../constants/messages.js";
-import quizService from "../services/quizService.js";
+import questionService from "../services/questionService.js";
 import catchAsync from "../utils/catchAsync.js";
 
 const createMultipleChoiceQuestion = catchAsync(async (req, res, next) => {
   const { quizId } = req.params;
   const { title, answers } = req.body;
-  const result = await quizService.createMultipleChoiceQuestion(
+  const result = await questionService.createMultipleChoiceQuestion(
     quizId,
     title,
     answers
@@ -18,7 +19,7 @@ const createMultipleChoiceQuestion = catchAsync(async (req, res, next) => {
 const createFillInTheBlankQuestion = catchAsync(async (req, res, next) => {
   const { quizId } = req.params;
   const { title, answers } = req.body;
-  const result = await quizService.createFillInTheBlankQuestion(
+  const result = await questionService.createFillInTheBlankQuestion(
     quizId,
     title,
     answers
@@ -30,7 +31,7 @@ const createFillInTheBlankQuestion = catchAsync(async (req, res, next) => {
 
 const deleteQuestion = catchAsync(async (req, res, next) => {
   const { quizId, questionId } = req.params;
-  const result = await quizService.deleteQuestion(quizId, questionId);
+  const result = await questionService.deleteQuestion(quizId, questionId);
   res.status(StatusCodes.OK).json({ message: result });
 });
 
@@ -38,7 +39,7 @@ const updateQuestion = catchAsync(async (req, res, next) => {
   const { questionId } = req.params;
   const data = req.body;
 
-  const result = await quizService.updateQuestion(questionId, data);
+  const result = await questionService.updateQuestion(questionId, data);
   res
     .status(StatusCodes.OK)
     .json({ message: MESSAGES.QUIZ.UPDATE_SUCCESS, data: result });
@@ -47,7 +48,7 @@ const updateQuestion = catchAsync(async (req, res, next) => {
 const updateAllQuestions = catchAsync(async (req, res, next) => {
   const { quizId } = req.params;
   const data = req.body;
-  const result = await quizService.updateAllQuestions(quizId, data);
+  const result = await question.updateAllQuestions(quizId, data);
   res
     .status(StatusCodes.OK)
     .json({ message: MESSAGES.QUIZ.UPDATE_SUCCESS, data: result });
@@ -58,5 +59,5 @@ export default {
   updateQuestion,
   createFillInTheBlankQuestion,
   createMultipleChoiceQuestion,
-  deleteQuestion
+  deleteQuestion,
 };

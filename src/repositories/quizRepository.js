@@ -3,8 +3,10 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const createBlankQuiz = async (userId) => {
+  const quizCode = Math.floor(10000000 + Math.random() * 90000000);
   const newQuiz = await prisma.quiz.create({
     data: {
+      quizCode,
       title: "Untitled quiz",
       subject: "",
       grade: "",
