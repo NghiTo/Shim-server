@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon app.js",
-    "migrate": "dotenv -e ./environments/.env -- npx prisma migrate dev"
+    "migrate": "npx dotenv -e ./environments/.env npx prisma migrate dev"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

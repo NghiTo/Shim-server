@@ -18,6 +18,13 @@ const findQuizById = catchAsync(async (req, res, next) => {
     .json({ message: MESSAGES.QUIZ.FIND_SUCCESS, data: result });
 });
 
+const getAllQuizzes = catchAsync(async (req, res, next) => {
+  const result = await quizService.getAllQuizzes(req.query);
+  res
+    .status(StatusCodes.OK)
+    .json({ message: MESSAGES.QUIZ.FIND_SUCCESS, data: result });
+});
+
 const updateQuiz = catchAsync(async (req, res, next) => {
   const { quizId } = req.params;
   const data = req.body;
@@ -25,14 +32,6 @@ const updateQuiz = catchAsync(async (req, res, next) => {
   res
     .status(StatusCodes.OK)
     .json({ message: MESSAGES.QUIZ.UPDATE_SUCCESS, data: result });
-});
-
-const getAllQuizzes = catchAsync(async (req, res, next) => {
-  const { userId } = req.user;
-  const result = await quizService.getAllQuizzes(userId, req.query);
-  res
-    .status(StatusCodes.OK)
-    .json({ message: MESSAGES.QUIZ.FIND_SUCCESS, data: result });
 });
 
 const deleteQuiz = catchAsync(async (req, res, next) => {
@@ -45,6 +44,6 @@ export default {
   createBlankQuiz,
   findQuizById,
   updateQuiz,
-  getAllQuizzes,
   deleteQuiz,
+  getAllQuizzes
 };

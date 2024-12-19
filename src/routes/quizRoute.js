@@ -6,11 +6,6 @@ import questionController from "../controllers/questionController.js";
 const router = Router();
 
 router.post("/", verifyUser, quizController.createBlankQuiz);
-router.get("/:quizId", quizController.findQuizById);
-router.put("/:quizId", verifyUser, quizController.updateQuiz);
-router.delete("/:quizId", verifyUser, quizController.deleteQuiz);
-router.get("/", verifyUser, quizController.getAllQuizzes);
-
 router.post(
   "/:quizId/multiple-choice",
   verifyUser,
@@ -21,11 +16,18 @@ router.post(
   verifyUser,
   questionController.createFillInTheBlankQuestion
 );
+
+router.get("/:quizId", verifyUser, quizController.findQuizById);
+router.get("/", verifyUser, quizController.getAllQuizzes);
+
+router.delete("/:quizId", verifyUser, quizController.deleteQuiz);
 router.delete(
   "/:quizId/:questionId",
   verifyUser,
   questionController.deleteQuestion
 );
+
+router.put("/:quizId", verifyUser, quizController.updateQuiz);
 router.put(
   "/:quizId/questions/:questionId",
   verifyUser,

@@ -18,15 +18,16 @@ const createBlankQuiz = async (userId) => {
   return newQuiz;
 };
 
-const getAllQuizzes = async (userId, query) => {
+const getAllQuizzes = async (query) => {
   const quizzes = await prisma.quiz.findMany({
-    where: { userId, ...query },
+    where: { ...query },
     include: {
       questions: {
         include: {
           answers: true,
         },
       },
+      user: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -61,10 +62,25 @@ const deleteQuiz = async (quizId) => {
   return await prisma.quiz.delete({ where: { id: quizId } });
 };
 
+const findQuizByQuizCode = async (quizCode) => {
+  const quiz = await prisma.quiz.findUnique({
+    where: { quizCode },
+    include: {
+      questions: {
+        include: {
+          answers: true,
+        },
+      },
+    },
+  });
+  return quiz;
+};
+
 export default {
   createBlankQuiz,
   findQuizById,
   updateQuiz,
   getAllQuizzes,
   deleteQuiz,
+  findQuizByQuizCode,
 };
