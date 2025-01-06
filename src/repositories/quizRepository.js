@@ -2,8 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const createBlankQuiz = async (userId) => {
-  const quizCode = Math.floor(10000000 + Math.random() * 90000000);
+const createBlankQuiz = async (userId, quizCode) => {
   const newQuiz = await prisma.quiz.create({
     data: {
       quizCode,
@@ -71,6 +70,7 @@ const findQuizByQuizCode = async (quizCode) => {
           answers: true,
         },
       },
+      user: true,
     },
   });
   return quiz;

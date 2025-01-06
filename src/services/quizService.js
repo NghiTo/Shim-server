@@ -15,7 +15,18 @@ const createBlankQuiz = async (userId) => {
       statusCode: StatusCodes.NOT_FOUND,
     });
   }
-  const quiz = await quizRepository.createBlankQuiz(userId);
+  let quizCode;
+  let isUnique = false;
+
+  while (!isUnique) {
+    quizCode = Math.floor(10000000 + Math.random() * 90000000);
+    const existingQuiz = await quizRepository.findQuizByQuizCode(quizCode);
+
+    if (!existingQuiz) {
+      isUnique = true;
+    }
+  }
+  const quiz = await quizRepository.createBlankQuiz(userId, quizCode);
   return quiz;
 };
 
@@ -33,11 +44,11 @@ const findQuizById = async (quizId) => {
 
 const getAllQuizzes = async (query) => {
   if (query.quizCode) {
-    query.quizCode = parseInt(query.quizCode)
+    query.quizCode = parseInt(query.quizCode);
   }
   const quizzes = await quizRepository.getAllQuizzes(query);
   return quizzes;
-}
+};
 
 const updateQuiz = async (quizId, data) => {
   const quiz = await quizRepository.findQuizById(quizId);
@@ -75,5 +86,5 @@ export default {
   findQuizById,
   updateQuiz,
   deleteQuiz,
-  getAllQuizzes
+  getAllQuizzes,
 };

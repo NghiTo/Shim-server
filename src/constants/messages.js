@@ -24,7 +24,7 @@ const MESSAGES = {
     PASSWORD_INVALID: "Invalid password.",
     PASSWORD_MISMATCH: "Passwords do not match.",
     PASSWORD_UPDATE_SUCCESS: "Password updated.",
-    OTP_INVALID: "Invalid OTP"
+    OTP_INVALID: "Invalid OTP",
   },
 
   SCHOOL: {
@@ -65,8 +65,11 @@ const MESSAGES = {
     ANSWER_NOT_FOUND: "Answer not found.",
     ANSWER_DELETE_FAILURE: "Failed to delete answer.",
     ANSWER_UPDATE_FAILURE: "Failed to update answer.",
-    ANSWER_CREATE_FAILURE: "Failed to create answer."
-  }
+    ANSWER_CREATE_FAILURE: "Failed to create answer.",
+  },
+  ANSWER: {
+    CREATE_SUCCESS: "Answer created successfully",
+  },
 };
 
 export default MESSAGES;
