@@ -40,10 +40,20 @@ const deleteQuiz = catchAsync(async (req, res, next) => {
   res.status(StatusCodes.OK).json({ message: result });
 });
 
+const createQuizAttempt = catchAsync(async (req, res, next) => {
+  const { quizId } = req.params;
+  const { userId } = req.user;
+  const result = await quizService.createQuizAttempt(userId, quizId);
+  res
+    .status(StatusCodes.OK)
+    .json({ message: MESSAGES.QUIZ.ATTEMPT_CREATE_SUCCESS, data: result });
+});
+
 export default {
   createBlankQuiz,
   findQuizById,
   updateQuiz,
   deleteQuiz,
-  getAllQuizzes
+  getAllQuizzes,
+  createQuizAttempt
 };

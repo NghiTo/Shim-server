@@ -79,9 +79,25 @@ CREATE TABLE `UserAnswer` (
     `userId` VARCHAR(191) NOT NULL,
     `quizId` VARCHAR(191) NOT NULL,
     `questionId` VARCHAR(191) NOT NULL,
+    `attemptId` VARCHAR(191) NOT NULL,
     `answer` VARCHAR(191) NOT NULL,
     `isCorrect` BOOLEAN NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `UserQuizAttempt` (
+    `id` VARCHAR(191) NOT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+    `quizId` VARCHAR(191) NOT NULL,
+    `score` INTEGER NOT NULL DEFAULT 0,
+    `totalScore` INTEGER NOT NULL DEFAULT 0,
+    `accuracy` DOUBLE NOT NULL DEFAULT 0.0,
+    `status` ENUM('inProgress', 'completed', 'abandoned') NOT NULL DEFAULT 'inProgress',
+    `startedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `finishedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -106,3 +122,12 @@ ALTER TABLE `UserAnswer` ADD CONSTRAINT `UserAnswer_quizId_fkey` FOREIGN KEY (`q
 
 -- AddForeignKey
 ALTER TABLE `UserAnswer` ADD CONSTRAINT `UserAnswer_questionId_fkey` FOREIGN KEY (`questionId`) REFERENCES `Question`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UserAnswer` ADD CONSTRAINT `UserAnswer_attemptId_fkey` FOREIGN KEY (`attemptId`) REFERENCES `UserQuizAttempt`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UserQuizAttempt` ADD CONSTRAINT `UserQuizAttempt_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UserQuizAttempt` ADD CONSTRAINT `UserQuizAttempt_quizId_fkey` FOREIGN KEY (`quizId`) REFERENCES `Quiz`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

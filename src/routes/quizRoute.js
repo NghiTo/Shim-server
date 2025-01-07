@@ -16,6 +16,7 @@ router.post(
   verifyUser,
   questionController.createFillInTheBlankQuestion
 );
+router.post("/:quizId/start", verifyUser, quizController.createQuizAttempt);
 
 router.get("/:quizId", verifyUser, quizController.findQuizById);
 router.get("/", verifyUser, quizController.getAllQuizzes);

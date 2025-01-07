@@ -4,9 +4,10 @@ import answerService from "../services/answerService.js";
 import catchAsync from "../utils/catchAsync.js";
 
 const createAnswer = catchAsync(async (req, res, next) => {
-  const { userId, questionId, quizId, answer } = req.body;
+  const { userId, attemptId, questionId, quizId, answer } = req.body;
   const result = await answerService.createAnswer(
     userId,
+    attemptId,
     questionId,
     quizId,
     answer

@@ -51,6 +51,7 @@ const MESSAGES = {
   QUIZ: {
     CREATE_SUCCESS: "Quiz created successfully.",
     CREATE_FAILURE: "Failed to create quiz.",
+    ATTEMPT_CREATE_SUCCESS: "Attempt quiz created successfully.",
     NOT_FOUND: "Quiz not found.",
     FIND_SUCCESS: "Quiz found successfully.",
     UPDATE_SUCCESS: "Quiz updated successfully.",

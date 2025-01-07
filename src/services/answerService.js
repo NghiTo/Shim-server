@@ -7,7 +7,7 @@ import answerRepository from "../repositories/answerRepository.js";
 import quizRepository from "../repositories/quizRepository.js";
 import questionRepository from "../repositories/questionRepository.js";
 
-const createAnswer = async (userId, questionId, quizId, answer) => {
+const createAnswer = async (userId, attemptId, questionId, quizId, answer) => {
   const user = userRepository.findUserById(userId);
   if (!user) {
     throw new AppError({
@@ -35,6 +35,7 @@ const createAnswer = async (userId, questionId, quizId, answer) => {
   const isCorrect = question.answers.find((ans) => ans.content === answer).isCorrect;
   const res = answerRepository.createAnswer(
     userId,
+    attemptId,
     questionId,
     quizId,
     answer,

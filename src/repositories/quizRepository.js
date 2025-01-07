@@ -76,6 +76,16 @@ const findQuizByQuizCode = async (quizCode) => {
   return quiz;
 };
 
+const createQuizAttempt = async (userId, quizId) => {
+  const newQuizAttempt = await prisma.userQuizAttempt.create({
+    data: {
+      userId,
+      quizId,
+    },
+  });
+  return newQuizAttempt;
+};
+
 export default {
   createBlankQuiz,
   findQuizById,
@@ -83,4 +93,5 @@ export default {
   getAllQuizzes,
   deleteQuiz,
   findQuizByQuizCode,
+  createQuizAttempt
 };
