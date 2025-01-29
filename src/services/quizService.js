@@ -5,6 +5,7 @@ import quizRepository from "../repositories/quizRepository.js";
 import userRepository from "../repositories/userRepository.js";
 import { AppError } from "../utils/errorHandler.js";
 import { uploadImg } from "../utils/uploadImg.js";
+import answerRepository from "../repositories/answerRepository.js";
 
 const createBlankQuiz = async (userId) => {
   const user = await userRepository.findUserById(userId);
@@ -104,6 +105,19 @@ const createQuizAttempt = async (userId, quizId) => {
   return quizAttempt;
 };
 
+const quizSummary = (quizCode) => {
+  const quiz = quizRepository.findQuizByQuizCode(quizCode);
+  if (!quiz) {
+    throw new AppError({
+      statusCode: StatusCodes.NOT_FOUND,
+      message: MESSAGES.QUIZ.NOT_FOUND,
+      errorCode: ERROR_CODES.QUIZ.NOT_FOUND,
+    });
+  }
+  const answers = answerRepository.getAllAnswerByQuizId(quiz.id);
+  return answers
+};
+
 export default {
   createBlankQuiz,
   findQuizById,
@@ -111,4 +125,5 @@ export default {
   deleteQuiz,
   getAllQuizzes,
   createQuizAttempt,
+  quizSummary,
 };

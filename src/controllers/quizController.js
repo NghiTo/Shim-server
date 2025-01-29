@@ -49,11 +49,20 @@ const createQuizAttempt = catchAsync(async (req, res, next) => {
     .json({ message: MESSAGES.QUIZ.ATTEMPT_CREATE_SUCCESS, data: result });
 });
 
+const quizSummary = catchAsync(async (req, res, next) => {
+  const { quizCode } = req.params;
+  const result = await quizService.quizSummary(parseInt(quizCode));
+  res
+    .status(StatusCodes.OK)
+    .json({ message: MESSAGES.QUIZ.SUMMARY_SUCCESS, data: result });
+});
+
 export default {
   createBlankQuiz,
   findQuizById,
   updateQuiz,
   deleteQuiz,
   getAllQuizzes,
-  createQuizAttempt
+  createQuizAttempt,
+  quizSummary
 };

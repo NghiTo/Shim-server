@@ -20,6 +20,7 @@ router.post("/:quizId/start", verifyUser, quizController.createQuizAttempt);
 
 router.get("/:quizId", verifyUser, quizController.findQuizById);
 router.get("/", verifyUser, quizController.getAllQuizzes);
+router.get("/summary/:quizCode", verifyUser, quizController.quizSummary)
 
 router.delete("/:quizId", verifyUser, quizController.deleteQuiz);
 router.delete(
